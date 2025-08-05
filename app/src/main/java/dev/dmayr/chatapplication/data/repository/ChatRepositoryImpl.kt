@@ -5,7 +5,7 @@ import dev.dmayr.chatapplication.data.database.dao.ChatMessageDao
 import dev.dmayr.chatapplication.data.database.entity.ChatMessageEntity
 import dev.dmayr.chatapplication.data.datasource.websocket.WebSocketDataSource
 import dev.dmayr.chatapplication.data.datasource.websocket.WebSocketEvent
-import dev.dmayr.chatapplication.domain.model.ChatMessage
+import dev.dmayr.chatapplication.data.domain.model.ChatMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

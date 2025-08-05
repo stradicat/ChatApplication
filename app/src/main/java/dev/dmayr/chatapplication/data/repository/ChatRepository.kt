@@ -1,6 +1,6 @@
 package dev.dmayr.chatapplication.data.repository
 
-import dev.dmayr.chatapplication.domain.model.ChatMessage
+import dev.dmayr.chatapplication.data.domain.model.ChatMessage
 import kotlinx.coroutines.flow.Flow
 
 interface ChatRepository {
