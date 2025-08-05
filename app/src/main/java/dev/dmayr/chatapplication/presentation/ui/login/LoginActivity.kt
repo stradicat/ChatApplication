@@ -1,6 +1,5 @@
 package dev.dmayr.chatapplication.presentation.ui.login
 
-import RoomActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dev.dmayr.chatapplication.databinding.ActivityLoginBinding
+import dev.dmayr.chatapplication.presentation.ui.salas.RoomActivity
 import dev.dmayr.chatapplication.presentation.ui.viewmodel.LoginViewModel
 
 @AndroidEntryPoint

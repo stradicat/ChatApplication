@@ -1,3 +1,5 @@
+package dev.dmayr.chatapplication.presentation.ui.salas
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
