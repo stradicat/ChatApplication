@@ -30,6 +30,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "WEBSOCKET_URL", "\"wss://your-app.railway.app\"")
+        }
+        debug {
+            buildConfigField("String", "WEBSOCKET_URL", "\"wss://your-app.railway.app\"")
         }
     }
     compileOptions {
