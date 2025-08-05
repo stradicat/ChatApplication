@@ -7,12 +7,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.dmayr.chatapplication.databinding.ActivityRoomBinding
 import dev.dmayr.chatapplication.presentation.adapter.ChatRoomsAdapter
 import dev.dmayr.chatapplication.presentation.ui.chat.ChatActivity
+import dev.dmayr.chatapplication.presentation.ui.viewmodel.RoomViewModel
 
 @AndroidEntryPoint
 class RoomActivity : AppCompatActivity() { // Renamed from SalasActivity
 
     private lateinit var binding: ActivityRoomBinding // Updated binding type
-    private val chatRoomsViewModel: ChatRoomsViewModel by viewModels()
+    private val chatRoomsViewModel: RoomViewModel by viewModels()
     private lateinit var chatRoomsAdapter: ChatRoomsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dev.dmayr.chatapplication.databinding.ActivityProfileBinding
+import dev.dmayr.chatapplication.presentation.ui.viewmodel.ProfileViewModel
 
 @AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
@@ -23,8 +24,7 @@ class ProfileActivity : AppCompatActivity() {
         setupClickListeners()
         observeViewModel()
 
-        // For MVP, load a dummy user profile or fetch the current user's profile
-        profileViewModel.loadUserProfile("current_user_id") // Replace with actual user ID
+        profileViewModel.loadUserProfile("current_user_id")
     }
 
     private fun setupClickListeners() {
@@ -45,8 +45,7 @@ class ProfileActivity : AppCompatActivity() {
         profileViewModel.userProfile.observe(this) { user ->
             user?.let {
                 binding.profileNameTextView.text = it.username
-                binding.profileEmailEditText.setText(it.profileImageUrl) // Assuming profileImageUrl is used for email for simplicity in MVP
-                // Load profile image using a library like Coil or Glide if profileImageUrl is a URL
+                binding.profileEmailEditText.setText(it.profileImageUrl)
             }
         }
 

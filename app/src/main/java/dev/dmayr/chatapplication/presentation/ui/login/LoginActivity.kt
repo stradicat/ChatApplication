@@ -1,5 +1,6 @@
 package dev.dmayr.chatapplication.presentation.ui.login
 
+import RoomActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -30,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
             result.onSuccess { user ->
                 Toast.makeText(this, "Welcome, ${user.username}!", Toast.LENGTH_SHORT).show()
                 // Navigate to SalasActivity on successful login
-                val intent = Intent(this, SalasActivity::class.java)
+                val intent = Intent(this, RoomActivity::class.java)
                 startActivity(intent)
                 finish() // Close LoginActivity so user can't go back
             }.onFailure { exception ->

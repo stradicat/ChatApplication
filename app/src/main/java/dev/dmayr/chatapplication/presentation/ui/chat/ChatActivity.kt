@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.dmayr.chatapplication.databinding.ActivityChatBinding
 import dev.dmayr.chatapplication.presentation.adapter.ChatMessagesAdapter
 import dev.dmayr.chatapplication.presentation.ui.viewmodel.ChatUiState
 import dev.dmayr.chatapplication.presentation.ui.viewmodel.ChatViewModel
@@ -16,7 +17,6 @@ class ChatActivity : AppCompatActivity() {
     private val chatViewModel: ChatViewModel by viewModels()
     private lateinit var chatMessagesAdapter: ChatMessagesAdapter
 
-    // Dummy current user ID for MVP. In a real app, this would come from authentication.
     private val currentUserId = "user123" // Replace with actual authenticated user ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,32 +37,31 @@ class ChatActivity : AppCompatActivity() {
         chatMessagesAdapter = ChatMessagesAdapter(currentUserId)
         binding.chatRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@ChatActivity).apply {
-                stackFromEnd = true // Show latest messages at the bottom
+                stackFromEnd = true
             }
             adapter = chatMessagesAdapter
         }
     }
 
     private fun observeViewModel(chatRoomId: String) {
-        chatViewModel.loadMessages(chatRoomId) // Load messages for the specific chat room
+        chatViewModel.loadMessages(chatRoomId)
 
         chatViewModel.messages.observe(this) { messages ->
             chatMessagesAdapter.submitList(messages)
-            binding.chatRecyclerView.scrollToPosition(messages.size - 1) // Scroll to latest message
+            binding.chatRecyclerView.scrollToPosition(messages.size - 1)
         }
 
         chatViewModel.uiState.observe(this) { state ->
-            // Handle UI state changes (e.g., show loading spinner, error message)
+
             when (state) {
-                is ChatUiState.Loading -> { /* Show loading indicator */
+                is ChatUiState.Loading -> {
                 }
 
-                is ChatUiState.Success -> { /* Hide loading indicator */
+                is ChatUiState.Success -> {
                 }
 
                 is ChatUiState.Error -> {
-                    // Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
-                    /* Show error message */
+                    /* error  */
                 }
             }
         }
@@ -72,7 +71,7 @@ class ChatActivity : AppCompatActivity() {
         binding.sendMessageButton.setOnClickListener {
             val messageContent = binding.messageInputEditText.text.toString().trim()
             if (messageContent.isNotEmpty()) {
-                // For MVP, receiverId can be the chatRoomId or a specific user in a 1-1 chat
+
                 chatViewModel.sendMessage(currentUserId, chatRoomId, messageContent)
                 binding.messageInputEditText.text.clear() // Clear input field
             }
