@@ -7,7 +7,6 @@ import javax.inject.Inject
 class SendMessageUseCase @Inject constructor(
     private val chatRepository: ChatRepository
 ) {
-    // The 'operator fun invoke' allows calling the use case instance as a function
     suspend operator fun invoke(message: ChatMessage) {
         chatRepository.sendMessage(message)
     }

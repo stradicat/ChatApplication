@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ChatRepository {
     suspend fun sendMessage(message: ChatMessage)
     fun getChatMessages(userId: String): Flow<List<ChatMessage>>
-    // suspend fun markMessageAsRead(messageId: Long) // Example of another chat-specific operation
+    // suspend fun markMessageAsRead(messageId: Long) // ejemplo
 }

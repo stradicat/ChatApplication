@@ -21,10 +21,8 @@ class ChatRepositoryImpl @Inject constructor(
 ) : ChatRepository {
 
     init {
-        // Connect to WebSocket when repository is initialized (e.g., via Hilt)
         webSocketDataSource.connect()
 
-        // Observe incoming WebSocket events and messages
         CoroutineScope(Dispatchers.IO).launch {
             webSocketDataSource.events
                 .catch { e ->
@@ -35,7 +33,7 @@ class ChatRepositoryImpl @Inject constructor(
                         is WebSocketEvent.OnMessage -> {
                             try {
                                 val message = gson.fromJson(event.text, ChatMessage::class.java)
-                                chatMessageDao.insertMessage(message.toEntity()) // Convert domain model to entity for Room
+                                chatMessageDao.insertMessage(message.toEntity())
                             } catch (e: Exception) {
                                 println("Error parsing WebSocket message: ${e.localizedMessage}")
                             }
@@ -51,19 +49,17 @@ class ChatRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sendMessage(message: ChatMessage) {
-        val messageJson = gson.toJson(message) // Convert domain model to JSON string
-        webSocketDataSource.sendMessage(messageJson) // Send message over WebSocket
-        chatMessageDao.insertMessage(message.toEntity()) // Optimistic update: save locally immediately for responsiveness
+        val messageJson = gson.toJson(message)
+        webSocketDataSource.sendMessage(messageJson)
+        chatMessageDao.insertMessage(message.toEntity())
     }
 
     override fun getChatMessages(userId: String): Flow<List<ChatMessage>> {
-        // Retrieve messages from the local database and map them to domain models
         return chatMessageDao.getMessagesForUser(userId).map { entities ->
-            entities.map { it.toDomainModel() } // Convert database entities to domain models
+            entities.map { it.toDomainModel() }
         }
     }
 
-    // Helper functions for mapping between Domain Model and Database Entity
     private fun ChatMessage.toEntity(): ChatMessageEntity {
         return ChatMessageEntity(
             messageId = this.id,
