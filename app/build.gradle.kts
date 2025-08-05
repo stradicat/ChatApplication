@@ -30,6 +30,21 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "WEBSOCKET_API_KEY", "\"YOUR_PIESOCKET_API_KEY\"")
+            buildConfigField(
+                "String",
+                "WEBSOCKET_BASE_URL",
+                "\"wss://free.blr2.piesocket.com/v3/1\""
+            ) // Base URL
+
+        }
+        debug {
+            buildConfigField("String", "WEBSOCKET_API_KEY", "\"YOUR_PIESOCKET_API_KEY\"")
+            buildConfigField(
+                "String",
+                "WEBSOCKET_BASE_URL",
+                "\"wss://free.blr2.piesocket.com/v3/1\""
+            ) // Base URL
         }
     }
     compileOptions {
