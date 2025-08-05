@@ -60,3 +60,7 @@ app/src/main/java/com/tuapp/chatapp/
 ## Consideraciones Personales
 
 - Compatibilidad mínima: API 21 (Lollipop, Android 5.0)
+- En
+  `build.gradle.kts (:app) se deben completar``buildConfigField("String", "WEBSOCKET_API_KEY", "\"YOUR_PIESOCKET_API_KEY\"")`
+  y `buildConfigField("String", "WEBSOCKET_BASE_URL", "\"wss://free.blr2.piesocket.com/v3/1\"")` con
+  los puntos de acceso WebSocket a utilizar para la aplicación.
