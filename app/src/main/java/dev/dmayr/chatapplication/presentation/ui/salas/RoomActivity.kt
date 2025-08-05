@@ -35,7 +35,7 @@ class RoomActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
-        binding.chatRoomsRecyclerView.apply {
+        binding.chatroomRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@RoomActivity)
             adapter = chatRoomsAdapter
         }

@@ -6,7 +6,7 @@
     tools:context=".presentation.ui.salas.RoomActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chat_rooms_recycler_view"
+        android:id="@+id/chatroomRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
