@@ -1,7 +1,7 @@
 package dev.dmayr.chatapplication.data.domain.usecase
 
+import dev.dmayr.chatapplication.data.domain.model.ChatMessage
 import dev.dmayr.chatapplication.data.repository.ChatRepository
-import dev.dmayr.chatapplication.domain.model.ChatMessage
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package dev.dmayr.chatapplication.data.domain.usecase
 
+import dev.dmayr.chatapplication.data.domain.model.User
 import dev.dmayr.chatapplication.data.repository.AuthRepository
-import dev.dmayr.chatapplication.domain.model.User
 import javax.inject.Inject
 
 class AuthenticateUserUseCase @Inject constructor(
