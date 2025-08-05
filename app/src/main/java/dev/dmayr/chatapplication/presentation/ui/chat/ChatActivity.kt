@@ -3,68 +3,77 @@ package dev.dmayr.chatapplication.presentation.ui.chat
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.dmayr.chatapplication.databinding.ActivityChatBinding
-import dev.dmayr.chatapplication.presentation.adapter.MessageAdapter
-import dev.dmayr.chatapplication.presentation.viewmodel.ChatViewModel
-import kotlinx.coroutines.launch
+import dev.dmayr.chatapplication.presentation.adapter.ChatMessagesAdapter
+import dev.dmayr.chatapplication.presentation.ui.viewmodel.ChatUiState
+import dev.dmayr.chatapplication.presentation.ui.viewmodel.ChatViewModel
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
-    private val viewModel: ChatViewModel by viewModels()
-    private lateinit var messageAdapter: MessageAdapter
+    private val chatViewModel: ChatViewModel by viewModels()
+    private lateinit var chatMessagesAdapter: ChatMessagesAdapter
+
+    private val currentUserId = "user123" // Reemplazar con el ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val chatRoomId = intent.getStringExtra("CHAT_ROOM_ID") ?: "default_room"
+        val chatRoomName = intent.getStringExtra("CHAT_ROOM_NAME") ?: "Chat"
+        supportActionBar?.title = chatRoomName
+
         setupRecyclerView()
-        setupClickListeners()
-        observeViewModel()
-
-        val roomId = intent.getStringExtra("ROOM_ID") ?: "1"
-        val roomName = intent.getStringExtra("ROOM_NAME") ?: "Chat"
-
-        supportActionBar?.title = roomName
-        viewModel.joinRoom(roomId)
+        observeViewModel(chatRoomId)
+        setupMessageInput(chatRoomId)
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter()
-        binding.recyclerMessages.apply {
-            adapter = messageAdapter
-            layoutManager = LinearLayoutManager(this@ChatActivity)
-        }
-    }
-
-    private fun setupClickListeners() {
-        binding.buttonSend.setOnClickListener {
-            val message = binding.editMessage.text.toString().trim()
-            if (message.isNotEmpty()) {
-                viewModel.sendMessage(message)
-                binding.editMessage.setText("")
+        chatMessagesAdapter = ChatMessagesAdapter(currentUserId)
+        binding.chatRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@ChatActivity).apply {
+                stackFromEnd = true
             }
+            adapter = chatMessagesAdapter
         }
     }
 
-    private fun observeViewModel() {
-        lifecycleScope.launch {
-            viewModel.messages.collect { messages ->
-                messageAdapter.submitList(messages)
-                if (messages.isNotEmpty()) {
-                    binding.recyclerMessages.scrollToPosition(messages.size - 1)
+    private fun observeViewModel(chatRoomId: String) {
+        chatViewModel.loadMessages(chatRoomId)
+
+        chatViewModel.messages.observe(this) { messages ->
+            chatMessagesAdapter.submitList(messages)
+            binding.chatRecyclerView.scrollToPosition(messages.size - 1)
+        }
+
+        chatViewModel.uiState.observe(this) { state ->
+
+            when (state) {
+                is ChatUiState.Loading -> {
+                }
+
+                is ChatUiState.Success -> {
+                }
+
+                is ChatUiState.Error -> {
+                    /* error  */
                 }
             }
         }
+    }
 
-        lifecycleScope.launch {
-            viewModel.connectionStatus.collect { isConnected ->
-                binding.textConnectionStatus.text = if (isConnected) "Connected" else "Disconnected"
+    private fun setupMessageInput(chatRoomId: String) {
+        binding.sendMessageButton.setOnClickListener {
+            val messageContent = binding.messageInputEditText.text.toString().trim()
+            if (messageContent.isNotEmpty()) {
+
+                chatViewModel.sendMessage(currentUserId, chatRoomId, messageContent)
+                binding.messageInputEditText.text.clear()
             }
         }
     }

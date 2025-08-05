@@ -30,13 +30,21 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "WEBSOCKET_URL", "\"wss://your-app.railway.app\"")
-            buildConfigField("String", "API_BASE_URL", "\"https://your-api.railway.app/api/v1/\"")
+            buildConfigField("String", "WEBSOCKET_API_KEY", "\"YOUR_PIESOCKET_API_KEY\"")
+            buildConfigField(
+                "String",
+                "WEBSOCKET_BASE_URL",
+                "\"wss://free.blr2.piesocket.com/v3/1\""
+            ) // Base URL
 
         }
         debug {
-            buildConfigField("String", "WEBSOCKET_URL", "\"wss://your-app.railway.app\"")
-            buildConfigField("String", "API_BASE_URL", "\"https://your-api.railway.app/api/v1/\"")
+            buildConfigField("String", "WEBSOCKET_API_KEY", "\"YOUR_PIESOCKET_API_KEY\"")
+            buildConfigField(
+                "String",
+                "WEBSOCKET_BASE_URL",
+                "\"wss://free.blr2.piesocket.com/v3/1\""
+            ) // Base URL
         }
     }
     compileOptions {
@@ -51,36 +59,33 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
+
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.okhttp)
+
+    implementation(libs.gson)
 
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.hilt.android)
+    ksp(libs.androidx.hilt.compiler)
     ksp(libs.hilt.compiler)
 
-    implementation(libs.java.websocket)
-
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
-
-    implementation(libs.gson)
-
-    implementation(libs.kotlinx.coroutines.android)
-
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.room.testing)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)

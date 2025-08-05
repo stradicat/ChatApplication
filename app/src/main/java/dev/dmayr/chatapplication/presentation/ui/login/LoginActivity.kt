@@ -2,59 +2,45 @@ package dev.dmayr.chatapplication.presentation.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dev.dmayr.chatapplication.databinding.ActivityLoginBinding
-import dev.dmayr.chatapplication.presentation.ui.salas.RoomsActivity
-import dev.dmayr.chatapplication.utils.EncryptionHelper
-import dev.dmayr.chatapplication.utils.SharedPrefsHelper
-import java.util.UUID
-import javax.inject.Inject
+import dev.dmayr.chatapplication.presentation.ui.salas.RoomActivity
+import dev.dmayr.chatapplication.presentation.ui.viewmodel.LoginViewModel
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-
-    @Inject
-    lateinit var prefsHelper: SharedPrefsHelper
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Check if user is already logged ind
-        if (prefsHelper.getUserId() != null) {
-            navigateToRooms()
-            return
+        binding.loginButton.setOnClickListener {
+            val username = binding.usernameInput.text.toString()
+            val password = binding.passwordInput.text.toString()
+            loginViewModel.authenticate(username, password)
         }
 
-        setupClickListeners()
-    }
+        loginViewModel.authenticationResult.observe(this) { result ->
+            result.onSuccess { user ->
+                Toast.makeText(this, "Welcome, ${user.username}!", Toast.LENGTH_SHORT).show()
 
-    private fun setupClickListeners() {
-        binding.buttonLogin.setOnClickListener {
-            val userName = binding.editUserName.text.toString().trim()
-            if (userName.isNotEmpty()) {
-                val userId = UUID.randomUUID().toString()
-
-                // Save user info
-                prefsHelper.saveUserId(userId)
-                prefsHelper.saveUserName(userName)
-
-                // Generate and save encryption key
-                val encryptionKey = EncryptionHelper.generateKey()
-                prefsHelper.saveEncryptionKey(EncryptionHelper.keyToString(encryptionKey))
-
-                navigateToRooms()
+                val intent = Intent(this, RoomActivity::class.java)
+                startActivity(intent)
+                finish()
+            }.onFailure { exception ->
+                Toast.makeText(
+                    this,
+                    "Login failed: ${exception.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
-    }
-
-    private fun navigateToRooms() {
-        val intent = Intent(this, RoomsActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 }

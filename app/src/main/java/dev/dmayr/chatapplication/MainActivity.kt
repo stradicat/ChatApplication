@@ -12,9 +12,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Immediately redirect to LoginActivity
+        // Directly redirect to LoginActivity
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
-        finish()
+        finish() // Finish MainActivity so user can't go back to it
     }
 }
