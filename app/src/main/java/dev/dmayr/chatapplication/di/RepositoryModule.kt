@@ -1,3 +1,5 @@
+package dev.dmayr.chatapplication.di
+
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
