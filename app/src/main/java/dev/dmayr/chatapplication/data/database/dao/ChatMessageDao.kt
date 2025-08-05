@@ -17,7 +17,7 @@ interface ChatMessageDao {
     suspend fun insertAllMessages(messages: List<ChatMessageEntity>)
 
     @Query("SELECT * FROM chat_messages WHERE sender_id = :userId OR receiver_id = :userId ORDER BY timestamp ASC")
-    fun getMessagesForUser(userId: String): Flow<List<ChatMessageEntity>> // Observe changes in real-time
+    fun getMessagesForUser(userId: String): Flow<List<ChatMessageEntity>>
 
     @Query("UPDATE chat_messages SET is_read = 1 WHERE messageId = :messageId")
     suspend fun markMessageAsRead(messageId: Long)

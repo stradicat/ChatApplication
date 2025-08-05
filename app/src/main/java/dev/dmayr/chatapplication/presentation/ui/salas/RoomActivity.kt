@@ -10,35 +10,33 @@ import dev.dmayr.chatapplication.presentation.ui.chat.ChatActivity
 import dev.dmayr.chatapplication.presentation.ui.viewmodel.RoomViewModel
 
 @AndroidEntryPoint
-class RoomActivity : AppCompatActivity() { // Renamed from SalasActivity
+class RoomActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRoomBinding // Updated binding type
+    private lateinit var binding: ActivityRoomBinding
     private val chatRoomsViewModel: RoomViewModel by viewModels()
     private lateinit var chatRoomsAdapter: ChatRoomsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRoomBinding.inflate(layoutInflater) // Updated binding inflation
+        binding = ActivityRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupRecyclerView()
         observeViewModel()
 
-        // For MVP, you might load dummy chat rooms or fetch from a simple API
         chatRoomsViewModel.loadChatRooms()
     }
 
     private fun setupRecyclerView() {
         chatRoomsAdapter = ChatRoomsAdapter { chatRoom ->
-            // Handle chat room click, navigate to ChatActivity
             val intent = Intent(this, ChatActivity::class.java).apply {
                 putExtra("CHAT_ROOM_ID", chatRoom.id)
                 putExtra("CHAT_ROOM_NAME", chatRoom.name)
             }
             startActivity(intent)
         }
-        binding.chatRoomsRecyclerView.apply { // This refers to the RecyclerView in activity_room.xml
-            layoutManager = LinearLayoutManager(this@RoomActivity) // Updated context
+        binding.chatRoomsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@RoomActivity)
             adapter = chatRoomsAdapter
         }
     }
@@ -47,6 +45,5 @@ class RoomActivity : AppCompatActivity() { // Renamed from SalasActivity
         chatRoomsViewModel.chatRooms.observe(this) { rooms ->
             chatRoomsAdapter.submitList(rooms)
         }
-        // Observe UI state for loading/error feedback if implemented in ChatRoomsViewModel
     }
 }

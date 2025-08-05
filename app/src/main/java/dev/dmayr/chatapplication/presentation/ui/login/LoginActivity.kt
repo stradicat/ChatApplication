@@ -30,10 +30,10 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.authenticationResult.observe(this) { result ->
             result.onSuccess { user ->
                 Toast.makeText(this, "Welcome, ${user.username}!", Toast.LENGTH_SHORT).show()
-                // Navigate to SalasActivity on successful login
+
                 val intent = Intent(this, RoomActivity::class.java)
                 startActivity(intent)
-                finish() // Close LoginActivity so user can't go back
+                finish()
             }.onFailure { exception ->
                 Toast.makeText(
                     this,

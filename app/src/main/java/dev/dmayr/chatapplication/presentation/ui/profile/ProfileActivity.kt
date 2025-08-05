@@ -34,8 +34,7 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.saveProfileButton.setOnClickListener {
             val updatedEmail = binding.profileEmailEditText.text.toString()
-            // In a real app, you'd get the current user object and update its email
-            // For MVP, we'll just simulate an update
+
             profileViewModel.updateUserProfile(updatedEmail)
             toggleEditMode(false)
         }

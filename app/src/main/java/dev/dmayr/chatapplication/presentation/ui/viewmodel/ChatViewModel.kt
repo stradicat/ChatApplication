@@ -21,22 +21,20 @@ class ChatViewModel @Inject constructor(
     private val _messages = MutableLiveData<List<ChatMessage>>()
     val messages: LiveData<List<ChatMessage>> = _messages
 
-    // Represents the current UI state (Loading, Success, Error)
     private val _uiState = MutableLiveData<ChatUiState>()
     val uiState: LiveData<ChatUiState> = _uiState
 
     fun loadMessages(chatRoomId: String) {
-        _uiState.value = ChatUiState.Loading // Indicate loading state
+        _uiState.value = ChatUiState.Loading
         viewModelScope.launch {
             getChatMessagesUseCase(chatRoomId)
                 .catch { e ->
-                    // Handle errors during message loading
                     _uiState.value =
                         ChatUiState.Error("Failed to load messages: ${e.localizedMessage}")
                 }
                 .collect { messageList ->
-                    _messages.value = messageList // Update LiveData with new messages
-                    _uiState.value = ChatUiState.Success(messageList.isEmpty()) // Indicate success
+                    _messages.value = messageList
+                    _uiState.value = ChatUiState.Success(messageList.isEmpty())
                 }
         }
     }
@@ -50,13 +48,11 @@ class ChatViewModel @Inject constructor(
                 timestamp = System.currentTimeMillis(),
                 isRead = false
             )
-            sendMessageUseCase(message) // Invoke the use case to send the message
-            // UI will automatically update via LiveData observing Room changes
+            sendMessageUseCase(message)
         }
     }
 }
 
-// Sealed class to represent different states of the chat UI
 sealed class ChatUiState {
     object Loading : ChatUiState()
     data class Success(val isEmpty: Boolean) : ChatUiState()

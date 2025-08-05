@@ -51,7 +51,6 @@ class ChatMessagesAdapter(private val currentUserId: String) :
 
     override fun getItemCount(): Int = messages.size
 
-    // Updates the list of messages and notifies the adapter of changes
     fun submitList(newMessages: List<ChatMessage>) {
         messages.clear()
         messages.addAll(newMessages)

@@ -17,7 +17,7 @@ class ChatActivity : AppCompatActivity() {
     private val chatViewModel: ChatViewModel by viewModels()
     private lateinit var chatMessagesAdapter: ChatMessagesAdapter
 
-    private val currentUserId = "user123" // Replace with actual authenticated user ID
+    private val currentUserId = "user123" // Reemplazar con el ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class ChatActivity : AppCompatActivity() {
 
         val chatRoomId = intent.getStringExtra("CHAT_ROOM_ID") ?: "default_room"
         val chatRoomName = intent.getStringExtra("CHAT_ROOM_NAME") ?: "Chat"
-        supportActionBar?.title = chatRoomName // Set toolbar title
+        supportActionBar?.title = chatRoomName
 
         setupRecyclerView()
         observeViewModel(chatRoomId)
@@ -73,7 +73,7 @@ class ChatActivity : AppCompatActivity() {
             if (messageContent.isNotEmpty()) {
 
                 chatViewModel.sendMessage(currentUserId, chatRoomId, messageContent)
-                binding.messageInputEditText.text.clear() // Clear input field
+                binding.messageInputEditText.text.clear()
             }
         }
     }

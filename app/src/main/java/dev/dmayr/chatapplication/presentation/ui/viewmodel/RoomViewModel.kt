@@ -11,8 +11,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RoomViewModel @Inject constructor(
-    // In a real app, this would inject a use case to get chat rooms
-    // private val getChatRoomsUseCase: GetChatRoomsUseCase
 ) : ViewModel() {
 
     private val _chatRooms = MutableLiveData<List<ChatRoom>>()
@@ -20,7 +18,6 @@ class RoomViewModel @Inject constructor(
 
     fun loadChatRooms() {
         viewModelScope.launch {
-            // For MVP, provide dummy data
             val dummyRooms = listOf(
                 ChatRoom(
                     id = "room1",

@@ -29,15 +29,14 @@ class ProfileViewModel @Inject constructor(
 
     fun updateUserProfile(newEmail: String) {
         viewModelScope.launch {
-            // Simulate API call or database update
             val currentUser = _userProfile.value
             if (currentUser != null) {
                 val updatedUser =
-                    currentUser.copy(profileImageUrl = newEmail) // Using profileImageUrl for email for simplicity
+                    currentUser.copy(profileImageUrl = newEmail)
                 _userProfile.value = updatedUser
-                _profileUpdateStatus.value = true // Indicate success
+                _profileUpdateStatus.value = true
             } else {
-                _profileUpdateStatus.value = false // Indicate failure
+                _profileUpdateStatus.value = false
             }
         }
     }
