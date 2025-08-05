@@ -31,9 +31,12 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "WEBSOCKET_URL", "\"wss://your-app.railway.app\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://your-api.railway.app/api/v1/\"")
+
         }
         debug {
             buildConfigField("String", "WEBSOCKET_URL", "\"wss://your-app.railway.app\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://your-api.railway.app/api/v1/\"")
         }
     }
     compileOptions {
@@ -66,6 +69,10 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.java.websocket)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.gson)
 
